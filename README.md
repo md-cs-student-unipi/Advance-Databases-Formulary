@@ -26,8 +26,8 @@ Duplicate elimination (δ)
 
 | Operator                      | Cost                            | Result Size                           |
 |-------------------------------|---------------------------------|---------------------------------------|
-| **Distinct**(O, {A<sub>i</sub>})  | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O), Π N<sub>key</sub>(A<sub>i</sub>))  |
-| **HashDistinct**(O, {A<sub>i</sub>})  | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O), Π N<sub>key</sub>(A<sub>i</sub>))  |
+| **Distinct**(O, {A<sub>i</sub>})  | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
+| **HashDistinct**(O, {A<sub>i</sub>})  | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
 
 Sort (τ)
 ------------------
@@ -45,8 +45,8 @@ Grouping (γ)
 
 | Operator                      | Cost                            | Result Size                           |
 |-------------------------------|---------------------------------|---------------------------------------|
-| **GroupBy**(O, {A<sub>i</sub>}, {f<sub>i</sub>})  | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O), Π N<sub>key</sub>(A<sub>i</sub>))  |
-| **HashGroupBy**(O, {A<sub>i</sub>}, {f<sub>i</sub>})  | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O), Π N<sub>key</sub>(A<sub>i</sub>))  |
+| **GroupBy**(O, {A<sub>i</sub>}, {f<sub>i</sub>})  | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
+| **HashGroupBy**(O, {A<sub>i</sub>}, {f<sub>i</sub>})  | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
 
 
 Join (⋈)
