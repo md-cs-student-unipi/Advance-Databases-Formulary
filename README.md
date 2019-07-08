@@ -9,7 +9,7 @@ Relation (R)
 
 | Operator             | Cost                       | Result Size                                      |
 |----------------------|----------------------------|--------------------------------------------------|
-| TableScan(R)         | C = N<sub>pag</sub>(R)     | E<sub>rec</sub> = N<sub>rec</sub>(R)             |
+| **TableScan**(R)         | C = N<sub>pag</sub>(R)     | E<sub>rec</sub> = N<sub>rec</sub>(R)             |
 
 Projection (π)
 ------------------
