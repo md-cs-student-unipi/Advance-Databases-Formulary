@@ -20,14 +20,14 @@ that contain at least one of the k records to be retrieved using a sorted rid-li
 Relation (R)
 ------------------
 
-| Operator                             | Cost                   | Result Size                          |
-|--------------------------------------|------------------------|--------------------------------------|
-| **TableScan**(R)                     | C = N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
-| **IndexScan**(R, I) _index clustered_ | C = N<sub>leaf</sub>(I) + N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
-| **IndexScan**(R, I) _index on key_   | C = N<sub>leaf</sub>(I) + N<sub>rec</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
-| **IndexScan**(R, I) _otherwise_      | C = N<sub>leaf</sub>(I) + N<sub>key</sub>(R) * Φ(N<sub>rec</sub>(R)/N<sub>key</sub>(R), N<sub>pag</sub>(R)) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
-| **IndexSequentialScan**(R, I)        | C = N<sub>leaf</sub>(I) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
-| **SortScan**(R, I)                   | C = 3*N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| Operator                        | Cost                   | Result Size                          |
+|---------------------------------|------------------------|--------------------------------------|
+| **TableScan**(R)                | C = N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _clustered_ | C = N<sub>leaf</sub>(I) + N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _on key_    | C = N<sub>leaf</sub>(I) + N<sub>rec</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _otherwise_ | C = N<sub>leaf</sub>(I) + N<sub>key</sub>(R) * Φ(N<sub>rec</sub>(R)/N<sub>key</sub>(R), N<sub>pag</sub>(R)) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexSequentialScan**(R, I)   | C = N<sub>leaf</sub>(I) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **SortScan**(R, I)              | C = 3*N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
 
 Projection (π)
 ------------------
@@ -40,10 +40,10 @@ Projection (π)
 Duplicate elimination (δ)
 ------------------
 
-| Operator                      | Cost                            | Result Size                           |
-|-------------------------------|---------------------------------|---------------------------------------|
-| **Distinct**(O, {A<sub>i</sub>})  | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
-| **HashDistinct**(O, {A<sub>i</sub>})  | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
+| Operator                             | Cost                            | Result Size                           |
+|--------------------------------------|---------------------------------|---------------------------------------|
+| **Distinct**(O, {A<sub>i</sub>})     | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
+| **HashDistinct**(O, {A<sub>i</sub>}) | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O)/2, Π N<sub>key</sub>(A<sub>i</sub>))  |
 
 Sort (τ)
 ------------------
@@ -59,9 +59,9 @@ Selection (σ)
 | Operator                                      | Cost                            | Result Size                           |
 |-----------------------------------------------|---------------------------------|---------------------------------------|
 | **Filter**(O, ψ)                              | C = C(O) | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * E<sub>rec</sub>(O)\|  |
-| **IndexFilter**(R, I, ψ) _index clustered_    | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>pag</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **IndexFilter**(R, I, ψ) _index unclustered_  | C = \|S<sub>f</sub>(ψ) \| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **IndexFilter**(R, I, ψ) _index on key_       | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>rec</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ) _clustered_    | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>pag</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ) _unclustered_ | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>key</sub>(R) * Φ(N<sub>rec</sub>(R)/N<sub>key</sub>(R), N<sub>pag</sub>(R)))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ) _on key_       | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>rec</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
 | **IndexSequentialFilter**(R, I, ψ)            | C = \|S<sub>f</sub>(ψ) * N<sub>leaf</sub>(I)\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
 | **IndexOnlyFilter**(R, I, {A<sub>i</sub>}, ψ) | C = \|S<sub>f</sub>(ψ) * N<sub>leaf</sub>(I)\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
 | **OrIndexFilter**(R, I, {A<sub>i</sub>}, ψ)   | C = \|Σ C<sub>I</sub><sup>K</sup> \| + \|Φ(E<sub>rec</sub>, N<sub>pag</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
