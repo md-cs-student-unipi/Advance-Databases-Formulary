@@ -1,8 +1,5 @@
-# Advance-Databases-Formulary
-
-Physical Operators Cost and Result Size
-===========
-
+# Advance Databases
+## Physical Operators Cost and Result Size
 
 Relation (R)
 ------------------
