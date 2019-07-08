@@ -51,3 +51,15 @@ Grouping (γ)
 
 Join (⋈)
 ------------------
+
+
+| Operator                      | Cost                            | Result Size                           |
+|-------------------------------|---------------------------------|---------------------------------------|
+| **NestedLoop**(O<sub>E</sub>, O<sub>I</sub>, ψ<sub>J</sub>) | C = C(O<sub>E</sub>) | E<sub>rec</sub> = \| S<sub>f</sub>(ψ<sub>J</sub>) * E<sub>rec</sub>(O<sub>E</sub>) * E<sub>rec</sub>(O<sub>I</sub>) \| |
+| **PageNestedLoop**(O<sub>E</sub>, O<sub>I</sub>, ψ<sub>J</sub>) | C = C(O<sub>E</sub>) | E<sub>rec</sub> = \| S<sub>f</sub>(ψ<sub>J</sub>) * E<sub>rec</sub>(O<sub>E</sub>) * E<sub>rec</sub>(O<sub>I</sub>) \| |
+| **BlockNestedLoop**(O<sub>E</sub>, O<sub>I</sub>, ψ<sub>J</sub>) | C = C(O<sub>E</sub>) | E<sub>rec</sub> = \| S<sub>f</sub>(ψ<sub>J</sub>) * E<sub>rec</sub>(O<sub>E</sub>) * E<sub>rec</sub>(O<sub>I</sub>) \| |
+| **IndexNestedLoop**(O<sub>E</sub>, O<sub>I</sub>, ψ<sub>J</sub>) | C = C(O<sub>E</sub>) | E<sub>rec</sub> = \| S<sub>f</sub>(ψ<sub>J</sub>) * E<sub>rec</sub>(O<sub>E</sub>) * E<sub>rec</sub>(O<sub>I</sub>) \| |
+| **MergeJoin**(O<sub>E</sub>, O<sub>I</sub>, ψ<sub>J</sub>) | C = C(O<sub>E</sub>) + C(O<sub>I</sub>) | E<sub>rec</sub> = \| S<sub>f</sub>(ψ<sub>J</sub>) * E<sub>rec</sub>(O<sub>E</sub>) * E<sub>rec</sub>(O<sub>I</sub>) \| |
+| **HashJoin**(O<sub>E</sub>, O<sub>I</sub>, ψ<sub>J</sub>) | C = C(O<sub>E</sub>) + 2*(N<sub>pag</sub>(O<sub>E</sub>) + N<sub>pag</sub>(O<sub>I</sub>)) | E<sub>rec</sub> = \| S<sub>f</sub>(ψ<sub>J</sub>) * E<sub>rec</sub>(O<sub>E</sub>) * E<sub>rec</sub>(O<sub>I</sub>) \| |
+
+
