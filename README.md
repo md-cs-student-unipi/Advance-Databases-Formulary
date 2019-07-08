@@ -4,9 +4,14 @@
 Relation (R)
 ------------------
 
-| Operator             | Cost                       | Result Size                                      |
-|----------------------|----------------------------|--------------------------------------------------|
-| **TableScan**(R)         | C = N<sub>pag</sub>(R)     | E<sub>rec</sub> = N<sub>rec</sub>(R)             |
+| Operator                             | Cost                   | Result Size                          |
+|--------------------------------------|------------------------|--------------------------------------|
+| **TableScan**(R)                     | C = N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _indexclustered_ | C = N<sub>leaf</sub>(I) + N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _index on key_   | C = N<sub>leaf</sub>(I) + N<sub>rec</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _otherwise_      | C = N<sub>leaf</sub>(I) + N<sub>key</sub>(R) * Φ(N<sub>rec</sub>(R)/N<sub>key</sub>(R), N<sub>pag</sub>(R)) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexSequentialScan**(R, I)        | C = N<sub>leaf</sub>(I) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **SortScan**(R, I)                   | C = 3*N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
 
 Projection (π)
 ------------------
