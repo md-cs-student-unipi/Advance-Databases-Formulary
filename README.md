@@ -1,13 +1,29 @@
 # Advance Databases
 ## Physical Operators Cost and Result Size
 
+- **R** relation
+- **I** index
+- **O** operator
+- **B** number of pages in buffer
+- **A<sub>i</sub>** i<sup>th</sup> attribute
+- **N<sub>pag</sub>(R)** Number of pages of relation R
+- **N<sub>rec</sub>(R)** Number of records of relation R
+- **N<sub>leaf</sub>(I)** Number of leaf of index I
+- **N<sub>key</sub>(I)** Number of key of index I
+- **ψ<sub>J</sub>** join condition
+- **S<sub>f</sub>(ψ<sub>J</sub>)** selectivity factor of ψ<sub>J</sub> 
+- **C<sub>I</sub>** Cost of accessing the index pages
+- **C<sub>D</sub>** Cost of accessing the data pages containing the records
+- **Φ(k, n) ~ min(k, n)** Cardenas formula (estimate of the number of pages, in a file of n pages,
+that contain at least one of the k records to be retrieved using a sorted rid-list)
+
 Relation (R)
 ------------------
 
 | Operator                             | Cost                   | Result Size                          |
 |--------------------------------------|------------------------|--------------------------------------|
 | **TableScan**(R)                     | C = N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
-| **IndexScan**(R, I) _indexclustered_ | C = N<sub>leaf</sub>(I) + N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
+| **IndexScan**(R, I) _index clustered_ | C = N<sub>leaf</sub>(I) + N<sub>pag</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
 | **IndexScan**(R, I) _index on key_   | C = N<sub>leaf</sub>(I) + N<sub>rec</sub>(R) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
 | **IndexScan**(R, I) _otherwise_      | C = N<sub>leaf</sub>(I) + N<sub>key</sub>(R) * Φ(N<sub>rec</sub>(R)/N<sub>key</sub>(R), N<sub>pag</sub>(R)) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
 | **IndexSequentialScan**(R, I)        | C = N<sub>leaf</sub>(I) | E<sub>rec</sub> = N<sub>rec</sub>(R) |
