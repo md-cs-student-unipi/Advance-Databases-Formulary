@@ -58,14 +58,14 @@ Selection (σ)
 
 | Operator                                      | Cost                            | Result Size                           |
 |-----------------------------------------------|---------------------------------|---------------------------------------|
-| **Filter**(O, ψ)                              | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * E<sub>rec</sub>(O)\|  |
-| **IndexFilter**(R, I, ψ)                      | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **IndexFilter**(R, I, ψ)                      | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **IndexFilter**(R, I, ψ)                      | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **IndexSequentialFilter**(R, I, ψ)            | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **IndexOnlyFilter**(R, I, {A<sub>i</sub>}, ψ) | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **OrIndexFilter**(R, I, {A<sub>i</sub>}, ψ)   | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
-| **AndIndexFilter**(R, I, {A<sub>i</sub>}, ψ)  | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **Filter**(O, ψ)                              | C = C(O) | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * E<sub>rec</sub>(O)\|  |
+| **IndexFilter**(R, I, ψ) _index clustered_    | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>pag</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ) _index unclustered_  | C = \|S<sub>f</sub>(ψ) \| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ) _index on key_       | C = \|S<sub>f</sub>(ψ) * (N<sub>leaf</sub>(I) + N<sub>rec</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexSequentialFilter**(R, I, ψ)            | C = \|S<sub>f</sub>(ψ) * N<sub>leaf</sub>(I)\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexOnlyFilter**(R, I, {A<sub>i</sub>}, ψ) | C = \|S<sub>f</sub>(ψ) * N<sub>leaf</sub>(I)\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **OrIndexFilter**(R, I, {A<sub>i</sub>}, ψ)   | C = \|Σ C<sub>I</sub><sup>K</sup> \| + \|Φ(E<sub>rec</sub>, N<sub>pag</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **AndIndexFilter**(R, I, {A<sub>i</sub>}, ψ)  | C = \|Σ C<sub>I</sub><sup>K</sup> \| + \|Φ(E<sub>rec</sub>, N<sub>pag</sub>(R))\| | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
 
 
 Grouping (γ)
