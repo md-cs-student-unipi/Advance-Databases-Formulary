@@ -22,6 +22,11 @@ Projection (π)
 Duplicate elimination (δ)
 ------------------
 
+| Operator                      | Cost                            | Result Size                           |
+|-------------------------------|---------------------------------|---------------------------------------|
+| **Distinct**(O, {A<sub>i</sub>})  | C = C(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O), Π N<sub>key</sub>(A<sub>i</sub>))  |
+| **HashDistinct**(O, {A<sub>i</sub>})  | C = C(O) + 2*N<sub>pag</sub>(O) | E<sub>rec</sub> = min(E<sub>rec</sub>(O), Π N<sub>key</sub>(A<sub>i</sub>))  |
+
 Sort (τ)
 ------------------
 
