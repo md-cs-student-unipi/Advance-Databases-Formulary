@@ -5,7 +5,7 @@
 - **I** index
 - **O** operator
 - **B** number of pages in buffer
-- **A<sub>i</sub>** i<sup>th</sup> attribute
+- **A** attribute
 - **N<sub>pag</sub>(R)** Number of pages of relation R
 - **N<sub>rec</sub>(R)** Number of records of relation R
 - **N<sub>leaf</sub>(I)** Number of leaf of index I
@@ -55,6 +55,18 @@ Sort (τ)
 
 Selection (σ)
 ------------------
+
+| Operator                                      | Cost                            | Result Size                           |
+|-----------------------------------------------|---------------------------------|---------------------------------------|
+| **Filter**(O, ψ)                              | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * E<sub>rec</sub>(O)\|  |
+| **IndexFilter**(R, I, ψ)                      | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ)                      | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexFilter**(R, I, ψ)                      | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexSequentialFilter**(R, I, ψ)            | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **IndexOnlyFilter**(R, I, {A<sub>i</sub>}, ψ) | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **OrIndexFilter**(R, I, {A<sub>i</sub>}, ψ)   | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+| **AndIndexFilter**(R, I, {A<sub>i</sub>}, ψ)  | C = | E<sub>rec</sub> = \|S<sub>f</sub>(ψ) * N<sub>rec</sub>(R)\|  |
+
 
 Grouping (γ)
 ------------------
